@@ -67,7 +67,7 @@ console.log(zsolt);
 
 //3) FIRST-CLASS AND HIGHER-ORDER FUNCTIONS
 //a) Functions accepting callback functions
-
+//'LOWER' level functions
 const oneWord = str => {
   return str.replace(/ /g, '').toLowerCase();
 };
@@ -94,3 +94,122 @@ transformer(
   firstUpper,
   oneWord
 );
+
+const namesToWelcome = ['Jonas', 'Maria', 'Barbara'];
+
+const high5 = () => {
+  const emoji = '✌️';
+  console.log(emoji);
+  return emoji;
+};
+const welcomeAll = () => {
+  for (const names of namesToWelcome) console.log(names + ` ` + high5());
+};
+
+welcomeAll();
+
+document.body.addEventListener('click', high5);
+
+namesToWelcome.forEach(high5);
+
+//4) FUNCTIONS RETURNING FUNCTIONS
+const greet = greeting => {
+  return name => {
+    console.log(greeting + ' ' + name);
+  };
+};
+
+greet('Szia')('Barbara');
+
+const greetSzia = greet('Szia');
+greetSzia('Zsolti');
+
+//THE CALL AND APPLY METHODS
+const lufthansa = {
+  airline: 'Lufthansa',
+  iataCode: 'LH',
+  bookings: [],
+  book(flightNum, name) {
+    console.log(
+      `${name} booked a seat on ${this.airline} flight ${this.iataCode}${flightNum}`
+    );
+    this.bookings.push({ flight: `${this.iataCode}${flightNum}`, name });
+  },
+};
+
+lufthansa.book(1234, 'Barbara Marku');
+lufthansa.book(5678, 'Zsolt Marku');
+console.log(lufthansa.bookings);
+
+const eurowings = {
+  airline: 'Eurowings',
+  iataCode: 'EW',
+  bookings: [],
+};
+
+const book = lufthansa.book;
+
+//Call method
+book.call(lufthansa, 9999, 'Matyas Horvath');
+console.log(lufthansa.bookings);
+
+book.call(eurowings, 7878, 'Timea Nagy');
+console.log(eurowings.bookings);
+
+const wizzair = {
+  airline: 'Wizz Air Hungary Airlines',
+  iataCode: 'W6',
+  bookings: [],
+};
+
+book.call(wizzair, 4545, 'Peter Molnar');
+console.log(wizzair.bookings);
+
+//Apply method
+const flightData = [1212, 'Jozsef Nemeth'];
+// book.apply(wizzair, flightData);
+//this above is the same as this below, in modern Javascript is more common the code below with the spread operator
+book.call(wizzair, ...flightData);
+console.log(wizzair.bookings);
+
+//Bind method
+const bookLF = book.bind(lufthansa);
+const bookEW = book.bind(eurowings);
+const bookWZZ = book.bind(wizzair);
+
+bookWZZ(768, 'Janos Kiss');
+console.log(wizzair.bookings);
+
+const bookWZZ123 = book.bind(wizzair, 123);
+bookWZZ123('Barbara Marku');
+
+//With event listeners
+wizzair.planes = 150;
+wizzair.buyPlane = function () {
+  console.log(this);
+  this.planes++;
+  console.log(this.planes);
+};
+
+const buyplane = wizzair.buyPlane;
+document
+  .querySelector('.buy')
+  .addEventListener('click', buyplane.bind(wizzair));
+
+//Partial application
+const addTax = (rate, value) => value + value * rate;
+console.log(addTax(0.1, 200));
+
+const addVAT = addTax.bind(null, 0.21);
+console.log(addVAT(1500));
+
+//Challenge with function in function method
+const addTaxRate = rate => value => {
+  return value + value * rate;
+};
+
+const addVAT2 = addTaxRate(0.21);
+
+console.log(addVAT2(1500));
+
+console.log('Coding challenge 1'.padStart(35, '+').padEnd(55, '+'));
