@@ -108,9 +108,9 @@ const welcomeAll = () => {
 
 welcomeAll();
 
-document.body.addEventListener('click', high5);
+// document.body.addEventListener('click', high5);
 
-namesToWelcome.forEach(high5);
+// namesToWelcome.forEach(high5);
 
 //4) FUNCTIONS RETURNING FUNCTIONS
 const greet = greeting => {
@@ -186,7 +186,7 @@ bookWZZ123('Barbara Marku');
 //With event listeners
 wizzair.planes = 150;
 wizzair.buyPlane = function () {
-  console.log(this);
+  // console.log(this);
   this.planes++;
   console.log(this.planes);
 };
@@ -252,4 +252,30 @@ const poll = {
   options: ['0: JavaScript', '1: Python', '2: Rust', '3: C++'],
   // This generates [0, 0, 0, 0]. More in the next section 😃
   answers: new Array(4).fill(0),
+  registerNewAnswer() {
+    this.instuction = '(Write option number)';
+    const answer = prompt(`${this.question + '\n' + this.options.join('\n') + '\n' + this.instuction}`)
+    if (isNaN(answer) || answer === '' || answer > this.answers.length - 1 || answer < 0) {
+      alert(`Invalid input, please ${this.instuction.toLowerCase().slice(1, -1)}.`)
+    } else {
+      this.answers[answer]++
+      this.displayResults(this.answers)
+      this.displayResults(`'${this.answers}'`)
+    }
+  },
+  displayResults(type = []) {
+
+    if (typeof type === 'string') {
+      console.log(`Poll results are: ${type.slice(1, -1)}.`);
+    } else {
+      console.log(type);
+    }
+  }
 };
+
+const answerPoll = poll.registerNewAnswer;
+document.querySelector('.poll').addEventListener('click', answerPoll.bind(poll));
+
+const displayResults = poll.displayResults;
+displayResults(`[1, 5, 3, 9, 6, 1]`);
+displayResults([1, 5, 3, 9, 6, 1])
