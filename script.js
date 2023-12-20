@@ -380,4 +380,14 @@ const boardPassengers = (n, wait) => {
   console.log(`Boarding will start in ${wait} seconds`);
 }
 
-boardPassengers(240, 5)
+// boardPassengers(240, 5)
+
+console.log('Coding challenge 2'.padStart(35, '+').padEnd(55, '+'));
+
+(() => {
+  const header = document.querySelector('h1');
+  header.style.color = 'red';
+  document.querySelector('body').addEventListener('click', () => {
+    header.style.color = 'blue'
+  })
+})()
