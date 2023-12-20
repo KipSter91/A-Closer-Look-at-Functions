@@ -278,4 +278,28 @@ document.querySelector('.poll').addEventListener('click', answerPoll.bind(poll))
 
 const displayResults = poll.displayResults;
 displayResults(`[1, 5, 3, 9, 6, 1]`);
-displayResults([1, 5, 3, 9, 6, 1])
+displayResults([1, 5, 3, 9, 6, 1]);
+
+//IIFE (Immediately Invoked Function Expressions)
+const runOnce = () => {
+  console.log('This will never run again');
+}
+
+runOnce();
+//IIFE (standard)
+(function () {
+  console.log('This will never run again');
+  //Encapsulated variable in the function scope, there is no access to this data from the global scope, it's private data
+  const isPrivate = 23;
+})
+  ();
+//IIFE (arrow)
+(() => { console.log('This will ALSO never run again'); })()
+
+//block to create a scope
+{
+  const isPrivate = 23;
+  var isPublic = 23;
+}
+
+console.log(isPublic);
