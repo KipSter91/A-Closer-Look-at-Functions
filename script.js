@@ -303,3 +303,81 @@ runOnce();
 }
 
 console.log(isPublic);
+
+
+//CLOSURES
+//function execute once
+const secureBooking = () => {
+  let passengerCount = 0;
+  passengerCount++
+  console.log(passengerCount);
+}
+
+secureBooking();
+secureBooking();
+secureBooking();
+//function with for-loop
+const secureBooking2 = (passenger) => {
+
+  for (let i = 1; i <= passenger; i++) {
+    console.log(`${i} passenger`);
+  }
+};
+
+secureBooking2(4)
+
+//CLOSURE FUNCTION
+const secureBooking3 = () => {
+  let passengerCount = 0;
+  return () => {
+    passengerCount++;
+    console.log(`${passengerCount} passenger`);
+  }
+}
+
+const booker = secureBooking3();
+
+booker();
+booker();
+booker();
+booker();
+
+console.dir(booker)
+
+//Example 1)
+let a;
+
+const b = () => {
+  const c = 10;
+  a = () => {
+    console.log(c * 3);
+  }
+}
+
+const d = () => {
+  const f = 500;
+  a = () => {
+    console.log(f * 2);
+  }
+}
+
+b();
+a();
+console.dir(a);
+
+//Re-assigned 'a' function
+d();
+a();
+console.dir(a);
+
+//Example 2)
+const boardPassengers = (n, wait) => {
+  const perGroup = n / 3;
+  setTimeout(() => {
+    console.log(`We are boarding now all ${n} passengers`);
+    console.log(`There are 3 groups, each with ${perGroup} passangers`);
+  }, wait * 1000)
+  console.log(`Boarding will start in ${wait} seconds`);
+}
+
+boardPassengers(240, 5)
